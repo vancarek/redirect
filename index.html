@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zphJSlRtF3u5uXwIbgDF9bAiPjkaIDeQHJ3YLaeXlMo='; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Logowanie OLX</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;margin:3rem auto;max-width:32rem;padding:0 1rem;color:#222;background:#fff}</style>
+</head>
+<body>
+<p id="msg">Przekierowuję do aplikacji…</p>
+<script>(function () {
+  var TARGET = 'http://127.0.0.1:53127/oauth/callback';
+  var src = new URLSearchParams(window.location.search);
+  var out = new URLSearchParams();
+  ['code', 'state', 'error'].forEach(function (key) {
+    var value = src.get(key);
+    if (value !== null) out.set(key, value);
+  });
+  if (!out.has('state')) {
+    document.getElementById('msg').textContent =
+      'Brak danych logowania. Wróć do aplikacji i spróbuj ponownie.';
+    return;
+  }
+  window.location.replace(TARGET + '?' + out.toString());
+})();</script>
+</body>
+</html>
